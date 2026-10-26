@@ -47,17 +47,23 @@
         font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
         color: var(--ink);
         background:
+          radial-gradient(circle at 8px 8px, rgba(240, 107, 163, 0.13) 3px, transparent 3.8px),
+          radial-gradient(circle at 21px 21px, rgba(157, 112, 245, 0.10) 2.4px, transparent 3.2px),
           radial-gradient(600px 400px at 110% -60px, var(--bg-2), transparent 70%),
           radial-gradient(500px 380px at -120px 30%, #ffe3ef, transparent 70%),
           var(--bg);
+        background-size: 26px 26px, 26px 26px, auto, auto, auto;
         overflow-x: hidden;
       }
       @media (prefers-color-scheme: dark) {
         body {
           background:
+            radial-gradient(circle at 8px 8px, rgba(242, 118, 168, 0.10) 3px, transparent 3.8px),
+            radial-gradient(circle at 21px 21px, rgba(183, 155, 255, 0.08) 2.4px, transparent 3.2px),
             radial-gradient(600px 400px at 110% -60px, var(--bg-2), transparent 70%),
             radial-gradient(500px 380px at -120px 30%, #3a2440, transparent 70%),
             var(--bg);
+          background-size: 26px 26px, 26px 26px, auto, auto, auto;
         }
       }
       .wrap { max-width: 760px; margin: 0 auto; padding: 0 18px 64px; position: relative; z-index: 1; }
@@ -377,6 +383,134 @@
       .home-lyrics audio.fallback { display: block; }
       .song-tip { min-height: 1.5em; margin-top: 10px; font-size: 13px; color: var(--ink-soft); }
 
+      /* ---------- 计数器：猫耳 + 连点彩蛋 ---------- */
+      .counter { position: relative; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+      .counter::before, .counter::after {
+        content: ""; position: absolute; top: -11px; width: 24px; height: 24px;
+        background: var(--card); border: 1.5px dashed var(--line); border-radius: 7px;
+        transform: rotate(45deg);
+      }
+      .counter::before { left: 32px; }
+      .counter::after { right: 32px; }
+      .counter-egg {
+        display: none; margin-top: 10px;
+        font-family: "Ma Shan Zheng", cursive; font-size: 16.5px; line-height: 1.6; color: var(--pink-deep);
+      }
+      .counter-egg.show { display: block; animation: cardPop 0.5s cubic-bezier(0.34, 1.4, 0.64, 1); }
+
+      /* ---------- 开场爱心雨 ---------- */
+      .rain-particle { position: fixed; top: -46px; z-index: 60; pointer-events: none; opacity: 0; animation: rainFall linear forwards; }
+      @keyframes rainFall {
+        0% { transform: translateY(0) rotate(-6deg); opacity: 0; }
+        10% { opacity: 0.95; }
+        100% { transform: translateY(108vh) rotate(46deg); opacity: 0.8; }
+      }
+      @media (prefers-reduced-motion: reduce) { .rain-particle { display: none; } }
+
+      /* ---------- 照片：点击弹跳 + 随机贴纸 ---------- */
+      .polaroid { cursor: pointer; }
+      @keyframes boing {
+        0% { transform: rotate(var(--rot, 0deg)) scale(1); }
+        35% { transform: rotate(0deg) scale(1.06); }
+        65% { transform: rotate(var(--rot, 0deg)) scale(0.97); }
+        100% { transform: rotate(var(--rot, 0deg)) scale(1); }
+      }
+      .polaroid.boing { animation: boing 0.45s ease; }
+      .pop-sticker {
+        position: absolute; z-index: 5; pointer-events: none;
+        animation: stickerPop 1.6s ease forwards;
+        filter: drop-shadow(0 3px 5px rgba(90, 40, 70, 0.3));
+      }
+      @keyframes stickerPop {
+        0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+        18% { transform: scale(1.25) rotate(8deg); opacity: 1; }
+        30% { transform: scale(1) rotate(0deg); opacity: 1; }
+        80% { transform: scale(1) rotate(0deg); opacity: 1; }
+        100% { transform: scale(0.6) translateY(-10px); opacity: 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .polaroid.boing, .pop-sticker { animation: none; }
+        .pop-sticker { display: none; }
+      }
+
+      /* ---------- 戳一戳猫猫 ---------- */
+      .cat-play { text-align: center; }
+      .cat-stage { max-width: 440px; margin: 0 auto; }
+      .cat-bubble {
+        position: relative; display: inline-block; max-width: 330px;
+        background: var(--card); border: 1.5px dashed var(--line); border-radius: 20px;
+        box-shadow: var(--shadow); padding: 12px 20px;
+        font-family: "Ma Shan Zheng", cursive; font-size: 19px; line-height: 1.55; color: var(--pink-deep);
+      }
+      .cat-bubble::after {
+        content: ""; position: absolute; left: 50%; bottom: -8px; width: 15px; height: 15px;
+        transform: translateX(-50%) rotate(45deg);
+        background: var(--card); border-right: 1.5px dashed var(--line); border-bottom: 1.5px dashed var(--line);
+      }
+      .cat-bubble.pop { animation: cardPop 0.45s cubic-bezier(0.34, 1.4, 0.64, 1); }
+      .cat-btn {
+        display: block; margin: 18px auto 0; appearance: none; border: none; background: none;
+        cursor: pointer; padding: 6px; -webkit-tap-highlight-color: transparent;
+      }
+      .cat-btn svg { width: 148px; height: auto; display: block; filter: drop-shadow(0 10px 18px rgba(214, 75, 135, 0.25)); }
+      .cat-btn:focus-visible { outline: 2px dashed var(--pink); outline-offset: 4px; border-radius: 24px; }
+      @keyframes catSquish {
+        0% { transform: scale(1, 1); }
+        30% { transform: scale(1.12, 0.84); }
+        55% { transform: scale(0.94, 1.08); }
+        75% { transform: scale(1.03, 0.97); }
+        100% { transform: scale(1, 1); }
+      }
+      .cat-btn.squish svg { animation: catSquish 0.5s ease; transform-origin: 50% 90%; }
+      .cat-count { margin-top: 10px; font-size: 13px; color: var(--ink-soft); }
+      @media (prefers-reduced-motion: reduce) {
+        .cat-btn.squish svg, .cat-bubble.pop, .counter-egg.show { animation: none; }
+      }
+
+      /* ---------- 信封展开（全文不删，只是换个出场方式） ---------- */
+      .letter-wrap { position: relative; }
+      .letter-wrap .letter { transition: transform 0.85s cubic-bezier(0.22, 1.15, 0.36, 1), opacity 0.6s ease; transform-origin: 50% 0; }
+      .letter-wrap.sealed .letter { transform: perspective(1000px) rotateX(32deg) scale(0.97); opacity: 0.25; }
+      .envelope {
+        display: none; position: absolute; inset: 0; z-index: 4;
+        border-radius: 22px; box-shadow: var(--shadow);
+        background:
+          radial-gradient(circle at 10px 10px, rgba(255, 255, 255, 0.35) 3px, transparent 3.8px),
+          linear-gradient(150deg, #ffd3e6, #f7a8c4 55%, #ef8fc0);
+        background-size: 24px 24px, auto;
+        flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+        padding: 24px; text-align: center; cursor: pointer;
+      }
+      .letter-wrap.sealed .envelope { display: flex; }
+      .envelope::before {
+        content: ""; position: absolute; inset: 12px; border: 1.5px dashed rgba(255, 255, 255, 0.75);
+        border-radius: 14px; pointer-events: none;
+      }
+      .envelope .env-seal { animation: beat 1.6s ease-in-out infinite; filter: drop-shadow(0 6px 12px rgba(160, 30, 90, 0.35)); }
+      .envelope .env-title { font-family: "Ma Shan Zheng", cursive; font-size: 24px; color: #8f2b5c; letter-spacing: 2px; }
+      .envelope .env-sub { font-size: 13px; color: #a13a6e; }
+      .env-open-btn {
+        appearance: none; border: none; cursor: pointer; margin-top: 4px;
+        background: #fff; color: var(--pink-deep);
+        font-family: "ZCOOL KuaiLe", "Noto Sans SC", sans-serif; font-size: 18px;
+        padding: 11px 34px; border-radius: 999px;
+        box-shadow: 0 8px 18px rgba(160, 30, 90, 0.3);
+        transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        -webkit-tap-highlight-color: transparent;
+      }
+      .env-open-btn:active { transform: scale(0.9); }
+      .env-open-btn:focus-visible { outline: 2px dashed #fff; outline-offset: 3px; }
+      .letter-wrap.opening .envelope { animation: envAway 0.55s ease forwards; }
+      @keyframes envAway {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-46px) scale(0.92); opacity: 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .envelope .env-seal { animation: none; }
+        .letter-wrap .letter { transition: none; }
+        .letter-wrap.opening .envelope { animation: none; }
+      }
+
       footer { margin-top: 70px; text-align: center; color: var(--ink-soft); font-size: 13px; line-height: 2; }
       footer .names { font-family: "Ma Shan Zheng", cursive; font-size: 17px; color: var(--pink-deep); }
     </style>
@@ -403,6 +537,8 @@
           <div class="days"><span id="dayCount">···</span> <small>天</small></div>
           <div class="since" id="sinceText">从故事开始的那天算起，一天都没落下</div>
           <div class="since" id="startText" style="margin-top:4px; font-size:12px; opacity:0.75;"></div>
+          <div class="since" style="margin-top:2px; font-size:11px; opacity:0.55;">（小声说：这张卡片可以连着点点看）</div>
+          <div class="counter-egg" id="counterEgg">彩蛋解锁：这个数字每天都会变大——我对你的喜欢也是，一天比一天多。</div>
         </div>
       </header>
 
@@ -612,6 +748,48 @@
         <div class="love-count" id="loveCount"></div>
       </section>
 
+      <!-- ===== 戳一戳猫猫 ===== -->
+      <section class="cat-play">
+        <div class="sec-head">
+          <h2>戳一戳猫猫 <span class="dot">♥</span></h2>
+          <p>这只猫猫是我派来的，替我陪你解闷</p>
+        </div>
+        <div class="cat-stage">
+          <div class="cat-bubble" id="catBubble">喵～我是本页的吉祥物，戳我一下试试？</div>
+          <button class="cat-btn" id="catBtn" type="button" aria-label="戳一戳猫猫">
+            <svg viewBox="0 0 200 170" aria-hidden="true">
+              <path d="M38 62 L30 14 L78 34 Q56 44 38 62 Z" fill="#fff" stroke="#f0a6c6" stroke-width="3" stroke-linejoin="round" />
+              <path d="M162 62 L170 14 L122 34 Q144 44 162 62 Z" fill="#fff" stroke="#f0a6c6" stroke-width="3" stroke-linejoin="round" />
+              <path d="M42 50 L38 26 L62 36 Q50 42 42 50 Z" fill="#ffd3e6" />
+              <path d="M158 50 L162 26 L138 36 Q150 42 158 50 Z" fill="#ffd3e6" />
+              <ellipse cx="100" cy="98" rx="72" ry="60" fill="#fff" stroke="#f0a6c6" stroke-width="3" />
+              <ellipse cx="52" cy="112" rx="11" ry="6" fill="#ffb9d4" opacity="0.8" />
+              <ellipse cx="148" cy="112" rx="11" ry="6" fill="#ffb9d4" opacity="0.8" />
+              <circle cx="72" cy="94" r="6" fill="#4a3543" />
+              <circle cx="128" cy="94" r="6" fill="#4a3543" />
+              <circle cx="74" cy="92" r="2" fill="#fff" />
+              <circle cx="130" cy="92" r="2" fill="#fff" />
+              <path d="M95 108 Q100 104 105 108 Q100 114 95 108 Z" fill="#f06ba3" />
+              <path d="M100 112 Q100 118 93 118 M100 112 Q100 118 107 118" stroke="#4a3543" stroke-width="2.4" fill="none" stroke-linecap="round" />
+              <g stroke="#d9a7c0" stroke-width="2.4" stroke-linecap="round">
+                <line x1="18" y1="98" x2="44" y2="102" />
+                <line x1="20" y1="114" x2="45" y2="110" />
+                <line x1="182" y1="98" x2="156" y2="102" />
+                <line x1="180" y1="114" x2="155" y2="110" />
+              </g>
+              <g transform="translate(158,26)">
+                <path d="M0 0 L-20 -11 Q-26 0 -20 11 Z" fill="#f06ba3" />
+                <path d="M0 0 L20 -11 Q26 0 20 11 Z" fill="#f06ba3" />
+                <circle cx="0" cy="0" r="6.5" fill="#d64b87" />
+              </g>
+              <ellipse cx="58" cy="156" rx="16" ry="10" fill="#fff" stroke="#f0a6c6" stroke-width="3" />
+              <ellipse cx="142" cy="156" rx="16" ry="10" fill="#fff" stroke="#f0a6c6" stroke-width="3" />
+            </svg>
+          </button>
+          <div class="cat-count" id="catCount">已被戳 0 次</div>
+        </div>
+      </section>
+
       <!-- ===== 情话抽签机 ===== -->
       <section class="fortune">
         <div class="sec-head">
@@ -623,6 +801,19 @@
           <div class="f-text" id="fortuneText">还没抽呢——手气怎么样，试过才知道</div>
         </div>
         <button class="draw-btn" id="drawBtn" type="button">抽一支签</button>
+      </section>
+
+      <!-- ===== 今日份夸夸 ===== -->
+      <section class="fortune praise">
+        <div class="sec-head">
+          <h2>今日份夸夸 <span class="dot">♥</span></h2>
+          <p>夸你的话备了一整盒，抽一张，今天的份先到账</p>
+        </div>
+        <div class="fortune-card" id="praiseCard">
+          <div class="f-label">夸 夸 卡</div>
+          <div class="f-text" id="praiseText">盒子还没开——点下面按钮，抽一张专夸你的卡</div>
+        </div>
+        <button class="draw-btn" id="praiseBtn" type="button">抽一张夸夸卡</button>
       </section>
 
       <!-- ===== 愿望清单 ===== -->
@@ -698,12 +889,20 @@
           <h2>有几句正经的 <span class="dot">·</span> 就几句</h2>
           <p>搞怪归搞怪，这一段我没开玩笑</p>
         </div>
+        <div class="letter-wrap" id="letterWrap">
         <div class="letter">
           <p class="to">雨轩：</p>
           <p>写那种肉麻情话我确实不太行，怕写出来你先笑我三天。但有几句实话，一直想找个地方放着——认识你之后，我的日子好像自动分成了两种：有你的，和没你的。前者明显比较有意思。别人要是问起我对你的评价，我也还是那句老话：我觉得你是一个非常可爱、脾气好，还特别温柔的女孩子。</p>
           <p>你负责继续无法无天、继续拍那些搞怪的照片，我负责在旁边收拾残局，陪你胡闹，陪你熬夜，陪你把每一顿好吃的都吃到。吵架归吵架，谁先低头都行，反正最后总会和好——这点默契我们还是有的。</p>
           <p>以后的日子还长，不赶时间，我们慢慢过。</p>
           <div class="sign">—— 陈林宇</div>
+        </div>
+          <div class="envelope" id="envelope">
+            <svg class="env-seal" width="64" height="64" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            <div class="env-title">给雨轩的一封信</div>
+            <div class="env-sub">陈林宇亲笔，全文都在里面，拆开慢慢看</div>
+            <button class="env-open-btn" id="envOpenBtn" type="button">点我拆开</button>
+          </div>
         </div>
       </section>
 
@@ -791,7 +990,14 @@
           s.style.left = (Math.random() * 96) + 'vw';
           s.style.animationDuration = (12 + Math.random() * 10) + 's';
           s.style.animationDelay = (-Math.random() * 18) + 's';
-          if (i % 3 === 2) {
+          var kind = i % 5;
+          if (kind === 2) {
+            s.innerHTML = '<svg width="' + (size + 9) + '" height="' + (size + 9) + '" viewBox="0 0 48 40"><path d="M8 14 L6 3 L18 8 Q12 10 8 14 Z" fill="#ffffff" stroke="#f0a6c6" stroke-width="1.6" stroke-linejoin="round"/><path d="M40 14 L42 3 L30 8 Q36 10 40 14 Z" fill="#ffffff" stroke="#f0a6c6" stroke-width="1.6" stroke-linejoin="round"/><ellipse cx="24" cy="23" rx="17" ry="14" fill="#ffffff" stroke="#f0a6c6" stroke-width="1.6"/><circle cx="17" cy="22" r="1.8" fill="#8a6880"/><circle cx="31" cy="22" r="1.8" fill="#8a6880"/><path d="M22.4 26.4 Q24 25.2 25.6 26.4 Q24 28.4 22.4 26.4 Z" fill="#f06ba3"/><circle cx="38" cy="6" r="3.4" fill="#f06ba3"/></svg>';
+          } else if (kind === 3) {
+            s.innerHTML = '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="' + colors[i % colors.length] + '"><ellipse cx="12" cy="16.5" rx="5" ry="4"/><circle cx="4.8" cy="11" r="2.1"/><circle cx="8.6" cy="7.2" r="2.3"/><circle cx="15.4" cy="7.2" r="2.3"/><circle cx="19.2" cy="11" r="2.1"/></svg>';
+          } else if (kind === 4) {
+            s.innerHTML = '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="' + colors[i % colors.length] + '"><path d="M11 12 L2.5 6.5 Q1 12 2.5 17.5 Z"/><path d="M13 12 L21.5 6.5 Q23 12 21.5 17.5 Z"/><circle cx="12" cy="12" r="2.6"/></svg>';
+          } else if (kind === 1) {
             s.innerHTML = '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="' + colors[i % colors.length] + '"><path d="M12 2.5l2.8 6 6.6.7-4.9 4.5 1.4 6.5L12 16.9l-5.9 3.3 1.4-6.5L2.6 9.2l6.6-.7z"/></svg>';
           } else {
             s.innerHTML = '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="' + colors[i % colors.length] + '"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
@@ -1008,6 +1214,179 @@
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleWish(); }
         });
       });
+
+      /* =========================================================
+         新增互动：点击特效 / 戳猫猫 / 夸夸卡 / 彩蛋 / 信封展开
+         ========================================================= */
+      var REDUCED = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      function shapeSVG(kind, size) {
+        if (kind === 'star') return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="#f7b731"><path d="M12 2.5l2.8 6 6.6.7-4.9 4.5 1.4 6.5L12 16.9l-5.9 3.3 1.4-6.5L2.6 9.2l6.6-.7z"/></svg>';
+        if (kind === 'paw') return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="#f28bb4"><ellipse cx="12" cy="16.5" rx="5" ry="4"/><circle cx="4.8" cy="11" r="2.1"/><circle cx="8.6" cy="7.2" r="2.3"/><circle cx="15.4" cy="7.2" r="2.3"/><circle cx="19.2" cy="11" r="2.1"/></svg>';
+        if (kind === 'bow') return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="#9d70f5"><path d="M11 12 L2.5 6.5 Q1 12 2.5 17.5 Z"/><path d="M13 12 L21.5 6.5 Q23 12 21.5 17.5 Z"/><circle cx="12" cy="12" r="2.6" fill="#7c4de0"/></svg>';
+        return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="#f06ba3"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+      }
+      var SHAPES = ['heart', 'star', 'paw', 'bow'];
+      function spawnMix(cx, cy, n, big) {
+        if (REDUCED) return;
+        for (var i = 0; i < n; i++) {
+          var h = document.createElement('div');
+          h.className = 'burst-heart';
+          var size = (big ? 16 : 11) + Math.random() * 12;
+          var angle = Math.random() * Math.PI * 2;
+          var dist = 34 + Math.random() * 60;
+          h.style.left = cx + 'px'; h.style.top = cy + 'px';
+          h.style.setProperty('--dx', Math.cos(angle) * dist + 'px');
+          h.style.setProperty('--dy', (Math.sin(angle) * dist - 30) + 'px');
+          h.style.setProperty('--rr', (Math.random() * 80 - 40) + 'deg');
+          h.innerHTML = shapeSVG(SHAPES[Math.floor(Math.random() * SHAPES.length)], size);
+          document.body.appendChild(h);
+          (function (node) { setTimeout(function () { node.remove(); }, 1050); })(h);
+        }
+      }
+
+      /* ---------- 点屏幕任意位置：小爆发 ---------- */
+      document.addEventListener('click', function (e) {
+        if (e.target && e.target.closest && e.target.closest('#heartBtn')) return; /* 大爱心按钮自带 7 连迸溅 */
+        spawnMix(e.clientX, e.clientY, 3, false);
+      });
+
+      /* ---------- 点照片：弹跳 + 随机贴纸 ---------- */
+      document.querySelectorAll('.polaroid').forEach(function (fig) {
+        fig.addEventListener('click', function () {
+          fig.classList.remove('boing');
+          void fig.offsetWidth;
+          fig.classList.add('boing');
+          if (REDUCED) return;
+          var old = fig.querySelector('.pop-sticker');
+          if (old) old.remove();
+          var st = document.createElement('span');
+          st.className = 'pop-sticker';
+          st.style.top = '-12px';
+          if (Math.random() < 0.5) { st.style.right = '-8px'; } else { st.style.left = '-8px'; }
+          st.innerHTML = shapeSVG(SHAPES[Math.floor(Math.random() * SHAPES.length)], 30 + Math.random() * 14);
+          fig.appendChild(st);
+          setTimeout(function () { st.remove(); }, 1650);
+        });
+      });
+
+      /* ---------- 戳一戳猫猫 ---------- */
+      var CAT_LINES = [
+        '喵～这一戳，本猫替陈林宇记在小本本上了',
+        '喵呜！戳本猫可以，欺负雨轩，不行',
+        '咕噜咕噜……这是本猫开心的声音，听见没',
+        '喵！本猫宣布：你今天也超级可爱',
+        '再戳一下，本猫就要收小鱼干当过路费了',
+        '喵～戳猫的人，今天会被喜欢的人惦记一整天',
+        '本猫的肉垫是专门留给你戳的，荣幸吧',
+        '喵呜～这一戳力道刚好，本猫很满意'
+      ];
+      var catLast = -1, catClicks = 0;
+      var catBtn = document.getElementById('catBtn');
+      var catBubble = document.getElementById('catBubble');
+      var catCount = document.getElementById('catCount');
+      if (catBtn && catBubble && catCount) {
+        catBtn.addEventListener('click', function () {
+          catClicks++;
+          var msg;
+          if (catClicks === 10) msg = '戳满 10 下！本猫正式宣布：你被可爱批准了';
+          else if (catClicks === 30) msg = '30 下了……本猫的毛都快被你戳出静电了';
+          else if (catClicks === 66) msg = '66 下！六六大顺，本猫赏你一整天的好运';
+          else if (catClicks === 100) msg = '100 下！本猫盖章认证：你就是陈林宇心里最重要的人';
+          else {
+            var idx;
+            do { idx = Math.floor(Math.random() * CAT_LINES.length); } while (idx === catLast && CAT_LINES.length > 1);
+            catLast = idx;
+            msg = CAT_LINES[idx];
+          }
+          catBubble.textContent = msg;
+          catBubble.classList.remove('pop');
+          void catBubble.offsetWidth;
+          catBubble.classList.add('pop');
+          catBtn.classList.remove('squish');
+          void catBtn.offsetWidth;
+          catBtn.classList.add('squish');
+          catCount.textContent = '已被戳 ' + catClicks + ' 次 · 本猫的耐心还剩很多';
+          var r = catBtn.getBoundingClientRect();
+          spawnMix(r.left + r.width / 2, r.top + r.height / 3, 5, true);
+        });
+      }
+
+      /* ---------- 今日份夸夸 ---------- */
+      var PRAISES = [
+        '夸夸卡：林雨轩的笑一出来，阴天都能自动转晴。',
+        '今日夸夸：脾气好、性子软、心还善，这配置是限量款。',
+        '夸夸卡：搞怪的时候可爱，正经的时候好看，你这属于两头都占。',
+        '今日夸夸：眼睛亮晶晶的，看谁都像在放电——还好电到的只有我。',
+        '夸夸卡：你的可爱不是一天两天的，是天天营业、从不打烊。',
+        '今日夸夸：声音好听，笑点又低，跟你聊天的人运气都不会差。',
+        '夸夸卡：拍照不上相——因为本人比照片还要好看一大截。',
+        '今日夸夸：温柔是你的出厂设置，改都改不掉，认命吧。',
+        '夸夸卡：全世界的好脾气排个队，你站最前面，我站你后面。',
+        '今日夸夸：被夸的人请注意，你的脸红已被本卡记录在案。'
+      ];
+      var pLast = -1;
+      var praiseCard = document.getElementById('praiseCard');
+      var praiseText = document.getElementById('praiseText');
+      var praiseBtn = document.getElementById('praiseBtn');
+      if (praiseBtn && praiseCard && praiseText) {
+        praiseBtn.addEventListener('click', function () {
+          var idx;
+          do { idx = Math.floor(Math.random() * PRAISES.length); } while (idx === pLast && PRAISES.length > 1);
+          pLast = idx;
+          praiseText.textContent = PRAISES[idx];
+          praiseCard.classList.remove('pop');
+          void praiseCard.offsetWidth;
+          praiseCard.classList.add('pop');
+        });
+      }
+
+      /* ---------- 计数器连点彩蛋 ---------- */
+      var counterEl = document.querySelector('.counter');
+      var eggEl = document.getElementById('counterEgg');
+      var counterClicks = 0;
+      if (counterEl && eggEl) {
+        counterEl.addEventListener('click', function () {
+          counterClicks++;
+          var r = counterEl.getBoundingClientRect();
+          spawnMix(r.left + r.width / 2, r.top + 24, 3, false);
+          if (counterClicks >= 5 && !eggEl.classList.contains('show')) {
+            eggEl.classList.add('show');
+            spawnMix(r.left + r.width / 2, r.top + r.height / 2, 8, true);
+          }
+        });
+      }
+
+      /* ---------- 信封展开（无脚本时信直接可见，脚本只负责"封口"再拆开） ---------- */
+      var letterWrap = document.getElementById('letterWrap');
+      var envelope = document.getElementById('envelope');
+      if (letterWrap && envelope) {
+        letterWrap.classList.add('sealed');
+        envelope.addEventListener('click', function () {
+          var r = envelope.getBoundingClientRect();
+          spawnMix(r.left + r.width / 2, r.top + r.height / 2, 8, true);
+          letterWrap.classList.add('opening');
+          setTimeout(function () {
+            letterWrap.classList.remove('sealed');
+            letterWrap.classList.remove('opening');
+          }, REDUCED ? 0 : 560);
+        });
+      }
+
+      /* ---------- 开场爱心雨 ---------- */
+      if (!REDUCED) {
+        setTimeout(function () {
+          for (var i = 0; i < 16; i++) {
+            var p = document.createElement('div');
+            p.className = 'rain-particle';
+            p.style.left = (2 + Math.random() * 94) + 'vw';
+            p.style.animationDuration = (2.4 + Math.random() * 1.4) + 's';
+            p.style.animationDelay = (Math.random() * 0.9) + 's';
+            p.innerHTML = shapeSVG(SHAPES[i % SHAPES.length], 13 + Math.random() * 16);
+            document.body.appendChild(p);
+            (function (node) { setTimeout(function () { node.remove(); }, 5200); })(p);
+          }
+        }, 400);
+      }
     </script>
   </body>
 </html>
