@@ -40,8 +40,11 @@
           --line: #553650;
         }
       }
-      * { box-sizing: border-box; }
-      html { scroll-behavior: smooth; }
+      * { box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+      html { scroll-behavior: smooth; overflow-x: hidden; overflow-x: clip; max-width: 100%; }
+      body { max-width: 100vw; }
+      ::selection { background: rgba(240, 107, 163, 0.3); }
+      .deco, .burst-heart, .rain-particle { max-width: 100vw; }
       body {
         margin: 0;
         font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
@@ -66,10 +69,11 @@
           background-size: 26px 26px, 26px 26px, auto, auto, auto;
         }
       }
-      .wrap { max-width: 760px; margin: 0 auto; padding: 0 18px 64px; position: relative; z-index: 1; }
+      .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 18px 64px; position: relative; z-index: 1; }
+      section, header, footer { max-width: 100%; }
 
       /* ---------- floating deco hearts ---------- */
-      .deco { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+      .deco { position: fixed; inset: 0; max-width: 100vw; pointer-events: none; z-index: 0; overflow: hidden; }
       .deco span { position: absolute; bottom: -40px; opacity: 0; animation: floatUp linear infinite; }
       .deco svg { display: block; }
       @keyframes floatUp {
@@ -109,7 +113,7 @@
         position: relative;
         transform: rotate(var(--rot, -2deg));
       }
-      .polaroid img { display: block; width: 100%; height: auto; border-radius: 10px; }
+      .polaroid img { display: block; width: 100%; max-width: 100%; height: auto; border-radius: 10px; -webkit-user-drag: none; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
       .polaroid figcaption {
         font-family: "Ma Shan Zheng", cursive;
         text-align: center; color: #6d4459; font-size: 17px; padding-top: 9px; line-height: 1.3;
@@ -156,9 +160,9 @@
       .sec-head p { margin: 0; color: var(--ink-soft); font-size: 14px; }
 
       /* ---------- photo wall ---------- */
-      .wall { display: grid; grid-template-columns: repeat(2, 1fr); gap: 26px 16px; }
-      @media (min-width: 640px) { .wall { grid-template-columns: repeat(3, 1fr); gap: 30px 20px; } }
-      .wall .polaroid { transition: transform 0.25s ease; }
+      .wall { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 16px; width: 100%; max-width: 100%; }
+      @media (min-width: 640px) { .wall { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 20px; } }
+      .wall .polaroid { transition: transform 0.25s ease; min-width: 0; max-width: 100%; }
       .wall .polaroid:hover { transform: rotate(0deg) scale(1.04); z-index: 3; }
       .wall .polaroid figcaption { font-size: 15px; }
 
@@ -240,7 +244,7 @@
       .tl-item.future .tl-card p { color: var(--ink-soft); }
 
       /* ---------- wishlist ---------- */
-      .wishes { list-style: none; margin: 0 auto; padding: 0; max-width: 560px; display: grid; gap: 12px; }
+      .wishes { list-style: none; margin: 0 auto; padding: 0; max-width: 560px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
       .wishes li {
         background: var(--card); border-radius: 20px; box-shadow: var(--shadow);
         padding: 14px 18px; display: flex; gap: 13px; align-items: flex-start;
@@ -313,7 +317,7 @@
       .draw-btn:focus-visible { outline: 2px dashed var(--pink-deep); outline-offset: 3px; }
 
       /* ---------- quiz ---------- */
-      .quiz { max-width: 560px; margin: 0 auto; display: grid; gap: 16px; }
+      .quiz { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
       .quiz-q { background: var(--card); border-radius: 20px; box-shadow: var(--shadow); padding: 18px 20px 14px; }
       .quiz-q .q-title { font-weight: 700; font-size: 16.5px; line-height: 1.55; }
       .quiz-q .q-num { font-family: "ZCOOL KuaiLe", sans-serif; color: var(--pink-deep); margin-right: 7px; }
@@ -408,7 +412,15 @@
       @media (prefers-reduced-motion: reduce) { .rain-particle { display: none; } }
 
       /* ---------- 照片：点击弹跳 + 随机贴纸 ---------- */
-      .polaroid { cursor: pointer; }
+      .polaroid {
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-touch-callout: none;
+        -webkit-user-select: none; user-select: none;
+        touch-action: manipulation;
+        outline: none;
+      }
+      .polaroid:active { background: var(--paper); }
       @keyframes boing {
         0% { transform: rotate(var(--rot, 0deg)) scale(1); }
         35% { transform: rotate(0deg) scale(1.06); }
@@ -417,7 +429,7 @@
       }
       .polaroid.boing { animation: boing 0.45s ease; }
       .pop-sticker {
-        position: absolute; z-index: 5; pointer-events: none;
+        position: absolute; z-index: 5; pointer-events: none; background: transparent;
         animation: stickerPop 1.6s ease forwards;
         filter: drop-shadow(0 3px 5px rgba(90, 40, 70, 0.3));
       }
@@ -470,7 +482,8 @@
       /* ---------- 信封展开（全文不删，只是换个出场方式） ---------- */
       .letter-wrap { position: relative; }
       .letter-wrap .letter { transition: transform 0.85s cubic-bezier(0.22, 1.15, 0.36, 1), opacity 0.6s ease; transform-origin: 50% 0; }
-      .letter-wrap.sealed .letter { transform: perspective(1000px) rotateX(32deg) scale(0.97); opacity: 0.25; }
+      .letter-wrap { max-width: 100%; }
+      .letter-wrap.sealed .letter { transform: rotateX(10deg) scale(0.97); opacity: 0.25; }
       .envelope {
         display: none; position: absolute; inset: 0; z-index: 4;
         border-radius: 22px; box-shadow: var(--shadow);
@@ -987,7 +1000,7 @@
         for (var i = 0; i < 12; i++) {
           var s = document.createElement('span');
           var size = 11 + Math.random() * 15;
-          s.style.left = (Math.random() * 96) + 'vw';
+          s.style.left = (Math.random() * 90) + 'vw';
           s.style.animationDuration = (12 + Math.random() * 10) + 's';
           s.style.animationDelay = (-Math.random() * 18) + 's';
           var kind = i % 5;
@@ -1378,7 +1391,7 @@
           for (var i = 0; i < 16; i++) {
             var p = document.createElement('div');
             p.className = 'rain-particle';
-            p.style.left = (2 + Math.random() * 94) + 'vw';
+            p.style.left = (2 + Math.random() * 86) + 'vw';
             p.style.animationDuration = (2.4 + Math.random() * 1.4) + 's';
             p.style.animationDelay = (Math.random() * 0.9) + 's';
             p.innerHTML = shapeSVG(SHAPES[i % SHAPES.length], 13 + Math.random() * 16);
