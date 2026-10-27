@@ -1232,6 +1232,7 @@
           <div id="capsuleLocked">
             <div class="capsule-msg">这封信还没到打开的日子</div>
             <div class="capsule-count" id="capsuleCountdown">正在数日子…</div>
+            <div class="capsule-note">这封信我正在写，到时候我会亲自写完，再亲手锁进来——在那之前，先乖乖等到一周年那一天。</div>
           </div>
           <div id="capsuleUnlocked" hidden>
             <div class="capsule-msg">到日子啦，这颗胶囊打开了</div>
@@ -2128,9 +2129,9 @@
 
       /* =========================================================
          时间胶囊信：2027-06-13 一周年自动解锁
-         信正文由陈林宇亲笔写好后以 AES-GCM 加密锁入胶囊，页面里
-         只存密文，明文不出现在源码中；到解锁日才在浏览器里解开。
-         锁定状态下只显示「这封信还没到打开的日子」与倒计时。
+         目前是占位状态：这封信陈林宇正在写，到时候他会亲自
+         写完再锁进来。胶囊里不存任何信件正文，锁定状态下
+         只显示「这封信还没到打开的日子」与倒计时。
          ========================================================= */
       (function () {
         var card = document.getElementById('capsuleCard');
@@ -2140,45 +2141,12 @@
         var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
         var lockedEl = document.getElementById('capsuleLocked');
         var unlockedEl = document.getElementById('capsuleUnlocked');
-        var CAPSULE_CIPHER = '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';
-        function fillLetter(text) {
-          var body = document.getElementById('capsuleBody');
-          if (!body) return;
-          var paras = text.split('\n\n');
-          for (var i = 0; i < paras.length; i++) {
-            if (i > 0) { body.appendChild(document.createElement('br')); body.appendChild(document.createElement('br')); }
-            body.appendChild(document.createTextNode(paras[i]));
-          }
-        }
-        function unlockLetter() {
-          var body = document.getElementById('capsuleBody');
-          if (!body) return;
-          if (!window.crypto || !crypto.subtle) {
-            body.textContent = '这封信已经到日子啦——换个完整的浏览器打开这个页面，就能看到信的全文。';
-            return;
-          }
-          var pass = ['che', 'nlin', 'yu', '&', 'lin', 'yu', 'xuan', '@', '2027', '-06', '-13'].join('');
-          var enc = new TextEncoder();
-          var raw = Uint8Array.from(atob(CAPSULE_CIPHER), function (c) { return c.charCodeAt(0); });
-          crypto.subtle.importKey('raw', enc.encode(pass), 'PBKDF2', false, ['deriveKey'])
-            .then(function (km) {
-              return crypto.subtle.deriveKey(
-                { name: 'PBKDF2', salt: enc.encode('kitty-capsule-0613'), iterations: 120000, hash: 'SHA-256' },
-                km, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
-            })
-            .then(function (key) {
-              return crypto.subtle.decrypt({ name: 'AES-GCM', iv: raw.slice(0, 12) }, key, raw.slice(12));
-            })
-            .then(function (pt) { fillLetter(new TextDecoder().decode(pt)); })
-            .catch(function () {
-              body.textContent = '这封信已经到日子啦——换个完整的浏览器打开这个页面，就能看到信的全文。';
-            });
-        }
         if (today >= unlockDate) {
           card.classList.remove('locked');
           if (lockedEl) lockedEl.hidden = true;
           if (unlockedEl) unlockedEl.hidden = false;
-          unlockLetter();
+          var body = document.getElementById('capsuleBody');
+          if (body) body.textContent = '这封信我正在写，到时候我会亲自写完，再亲手锁进来。';
         } else {
           var left = Math.round((unlockDate - today) / 86400000);
           var cd = document.getElementById('capsuleCountdown');
