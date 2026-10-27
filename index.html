@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <link rel="icon" href="data:," />
     <title>给雨轩的专属小世界</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -11,37 +11,25 @@
     <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --bg: #fef5f9;
-        --bg-2: #f4efff;
+        color-scheme: light;
+        --bg: #fff8fb;
+        --bg-2: #ffedf4;
         --ink: #4a3543;
-        --ink-soft: #8a6880;
+        --ink-soft: #967086;
         --pink: #f06ba3;
         --pink-deep: #d64b87;
-        --violet: #9d70f5;
-        --paper: #fffafc;
+        --violet: #cf8fb3;
+        --paper: #fffcfd;
         --card: #ffffff;
         --tape: rgba(255, 216, 236, 0.9);
-        --shadow: 0 12px 28px rgba(214, 75, 135, 0.14);
-        --line: #f6cfe1;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #221726;
-          --bg-2: #2a1e38;
-          --ink: #f6e3ee;
-          --ink-soft: #c9a4bd;
-          --pink: #f276a8;
-          --pink-deep: #ff9ec4;
-          --violet: #b79bff;
-          --paper: #fffafc;
-          --card: #33223c;
-          --tape: rgba(255, 183, 213, 0.55);
-          --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-          --line: #553650;
-        }
+        --shadow: 0 1px 2px rgba(214, 75, 135, 0.04), 0 8px 24px rgba(214, 75, 135, 0.08), 0 20px 44px rgba(214, 75, 135, 0.06);
+        --line: #f9d9e7;
+        --hairline: rgba(214, 75, 135, 0.12);
+        --glass: rgba(255, 252, 253, 0.78);
+        --spring: cubic-bezier(0.22, 1.25, 0.36, 1);
       }
       * { box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
-      html { scroll-behavior: smooth; overflow-x: hidden; overflow-x: clip; max-width: 100%; }
+      html { color-scheme: light; background: #fef5f9; scroll-behavior: smooth; overflow-x: hidden; overflow-x: clip; max-width: 100%; }
       body { max-width: 100vw; }
       ::selection { background: rgba(240, 107, 163, 0.3); }
       .deco, .burst-heart, .rain-particle { max-width: 100vw; }
@@ -51,23 +39,12 @@
         color: var(--ink);
         background:
           radial-gradient(circle at 8px 8px, rgba(240, 107, 163, 0.13) 3px, transparent 3.8px),
-          radial-gradient(circle at 21px 21px, rgba(157, 112, 245, 0.10) 2.4px, transparent 3.2px),
+          radial-gradient(circle at 21px 21px, rgba(207, 143, 179, 0.10) 2.4px, transparent 3.2px),
           radial-gradient(600px 400px at 110% -60px, var(--bg-2), transparent 70%),
           radial-gradient(500px 380px at -120px 30%, #ffe3ef, transparent 70%),
           var(--bg);
         background-size: 26px 26px, 26px 26px, auto, auto, auto;
         overflow-x: hidden;
-      }
-      @media (prefers-color-scheme: dark) {
-        body {
-          background:
-            radial-gradient(circle at 8px 8px, rgba(242, 118, 168, 0.10) 3px, transparent 3.8px),
-            radial-gradient(circle at 21px 21px, rgba(183, 155, 255, 0.08) 2.4px, transparent 3.2px),
-            radial-gradient(600px 400px at 110% -60px, var(--bg-2), transparent 70%),
-            radial-gradient(500px 380px at -120px 30%, #3a2440, transparent 70%),
-            var(--bg);
-          background-size: 26px 26px, 26px 26px, auto, auto, auto;
-        }
       }
       .wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 18px 64px; position: relative; z-index: 1; }
       section, header, footer { max-width: 100%; }
@@ -237,7 +214,6 @@
         border-radius: 999px; padding: 1px 9px;
       }
       .tl-tag.today { color: #fff; background: var(--pink); border: 1px solid var(--pink); }
-      @media (prefers-color-scheme: dark) { .tl-tag.today { color: #2a1420; } }
       .tl-title { font-family: "Ma Shan Zheng", cursive; font-size: 20px; color: var(--pink-deep); margin: 6px 0 2px; }
       .tl-item.future .tl-title, .tl-item.open .tl-title { color: var(--ink-soft); }
       .tl-card p { margin: 0; font-size: 14.5px; line-height: 1.75; color: var(--ink); }
@@ -536,10 +512,6 @@
       .kitty-watermark .mini-cat { position: absolute; width: 92px; opacity: 0.10; }
       .kitty-watermark .mini-cat.tl { top: 84px; left: -14px; transform: rotate(-8deg); }
       .kitty-watermark .mini-cat.br { bottom: 150px; right: -12px; transform: rotate(7deg); }
-      @media (prefers-color-scheme: dark) {
-        .kitty-watermark .mini-cat { opacity: 0.05; }
-      }
-
       .tab-panel { display: none; position: relative; isolation: isolate; }
       .tab-panel.active { display: block; }
       .panel-watermark {
@@ -573,10 +545,6 @@
       .period-history-cat { width: 118px; right: -18px; bottom: -16px; opacity: 0.13; }
       .habit-side-cat { width: 320px; right: -94px; top: 210px; opacity: 0.065; }
       .advice-sitting-cat { width: 126px; right: -22px; bottom: -20px; opacity: 0.11; }
-      @media (prefers-color-scheme: dark) {
-        .panel-cat { opacity: 0.055; }
-        .card-cat { opacity: 0.08; }
-      }
       @media (max-width: 520px) {
         .today-main-cat { top: 398px; }
         .today-sitting-cat { top: 930px; }
@@ -765,11 +733,6 @@
       .todo-tag.important { background: #ffe1ec; color: #d6336c; }
       .todo-tag.urgent { background: #fff3bf; color: #a07d00; }
       .todo-tag.normal { background: var(--bg-2); color: var(--violet); }
-      @media (prefers-color-scheme: dark) {
-        .todo-tag.important { background: #5b2740; color: #ff9ec4; }
-        .todo-tag.urgent { background: #574a12; color: #ffe066; }
-      }
-
       /* ---------- 底部 tab 栏 ---------- */
       .tabbar {
         position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
@@ -802,6 +765,79 @@
 
       footer { margin-top: 70px; text-align: center; color: var(--ink-soft); font-size: 13px; line-height: 2; }
       footer .names { font-family: "Ma Shan Zheng", cursive; font-size: 17px; color: var(--pink-deep); }
+
+      /* =========================================================
+         iOS 级粉白精致层（仅视觉，不改结构与逻辑；全程锁定浅色）
+         ========================================================= */
+      html, body, input, select, textarea, button { color-scheme: light; }
+      body {
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        letter-spacing: 0.01em;
+        line-height: 1.6;
+      }
+      input[type="text"], select, textarea {
+        background-color: #fffcfd;
+        color: var(--ink);
+        caret-color: var(--pink-deep);
+      }
+      input[type="text"]::placeholder { color: #c4a3b4; }
+
+      /* 卡片：统一大圆角 + 发丝描边 + 多层柔影 + 顶部高光，呈悬浮感 */
+      .space-card, .ov-card, .w-cell, .advice-card, .care-card,
+      .counter, .fortune-card, .quiz-q, .quiz-result, .cat-bubble {
+        border: 1px solid var(--hairline);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), var(--shadow);
+      }
+      .space-card, .advice-card, .care-card { border-radius: 22px; }
+      .ov-card, .w-cell { border-radius: 20px; }
+      .tl-card, .letter, .polaroid {
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), var(--shadow);
+      }
+      .history-item { background: #fff5f9; border: 1px solid rgba(214, 75, 135, 0.06); }
+
+      /* 横幅：淡粉→蜜桃粉细腻渐变，去掉生硬的深粉块 */
+      .love-banner {
+        background: linear-gradient(135deg, #ffc2d6 0%, #f9a8c6 38%, #f78fb8 72%, #f48fb1 100%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), 0 12px 32px rgba(214, 75, 135, 0.20), 0 24px 48px rgba(214, 75, 135, 0.08);
+      }
+
+      /* 底部 tab 栏：毛玻璃 */
+      .tabbar {
+        background: var(--glass);
+        -webkit-backdrop-filter: blur(22px) saturate(1.7);
+        backdrop-filter: blur(22px) saturate(1.7);
+        border-top: 1px solid var(--hairline);
+        box-shadow: 0 -8px 28px rgba(214, 75, 135, 0.08);
+      }
+      .tab-strip { border-bottom: 1px solid rgba(214, 75, 135, 0.07); }
+
+      /* 列表分隔：发丝线代替虚线，更干净 */
+      .habit-item, .todo-item { border-bottom: 1px solid rgba(214, 75, 135, 0.09); }
+      .habit-item:last-of-type, .todo-item:last-of-type { border-bottom: none; }
+
+      /* 动效：iOS 式弹簧缓动 + 按压回弹 */
+      .tab-btn, .ov-card, .city-btn, .cal-nav, .cal-day, .water-btn,
+      .habit-item .h-check, .todo-circle {
+        transition: transform 0.38s var(--spring), background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+      }
+      .tab-btn:active { transform: scale(0.92); }
+      .tab-btn svg { transition: transform 0.38s var(--spring); }
+      .city-btn:active, .cal-nav:active, .water-btn:active { transform: scale(0.92); }
+      .add-btn, .big-pink-btn, .draw-btn, .song-play-btn, .env-open-btn {
+        transition: transform 0.38s var(--spring), background-color 0.25s ease, box-shadow 0.25s ease;
+      }
+      .add-btn:active, .big-pink-btn:active, .draw-btn:active, .song-play-btn:active { transform: scale(0.94); }
+      .habit-item .h-check, .todo-circle { transition: all 0.38s var(--spring); }
+      @keyframes panelIn {
+        from { opacity: 0; transform: translateY(10px) scale(0.995); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      .tab-panel.active { animation: panelIn 0.45s var(--spring); }
+      @media (prefers-reduced-motion: reduce) {
+        .tab-panel.active { animation: none; }
+        .tab-btn, .ov-card, .city-btn, .add-btn, .big-pink-btn, .draw-btn, .song-play-btn { transition: none; }
+      }
     </style>
   </head>
   <body>
